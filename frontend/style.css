@@ -65,10 +65,117 @@ body {
 }
 
 
+/* ================= BACKGROUND ================= */
+
+/* Infinite flowing waves (centre of screen, blurred): 3 seamless layers at different speeds */
+body::before {
+    content: "";
+    position: fixed;
+    left: -40px;
+    right: -40px;
+    top: 50%;
+    height: 60vh;
+    transform: translateY(-50%);
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='f' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23c8102e' stop-opacity='.20'/%3E%3Cstop offset='1' stop-color='%23c8102e' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='s'%3E%3Cstop offset='0' stop-color='%23c8102e'/%3E%3Cstop offset='.5' stop-color='%23ff7a8e'/%3E%3Cstop offset='1' stop-color='%23c8102e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 90C300 90 300 210 600 210S900 90 1200 90V300H0Z' fill='url(%23f)'/%3E%3Cpath d='M0 90C300 90 300 210 600 210S900 90 1200 90' fill='none' stroke='url(%23s)' stroke-width='5' stroke-opacity='.65' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='f' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23c8102e' stop-opacity='.15'/%3E%3Cstop offset='1' stop-color='%23c8102e' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='s'%3E%3Cstop offset='0' stop-color='%23c8102e'/%3E%3Cstop offset='.5' stop-color='%23ff7a8e'/%3E%3Cstop offset='1' stop-color='%23c8102e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 110C300 110 300 190 600 190S900 110 1200 110V300H0Z' fill='url(%23f)'/%3E%3Cpath d='M0 110C300 110 300 190 600 190S900 110 1200 110' fill='none' stroke='url(%23s)' stroke-width='4' stroke-opacity='.45' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='f' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23c8102e' stop-opacity='.11'/%3E%3Cstop offset='1' stop-color='%23c8102e' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='s'%3E%3Cstop offset='0' stop-color='%23c8102e'/%3E%3Cstop offset='.5' stop-color='%23ff7a8e'/%3E%3Cstop offset='1' stop-color='%23c8102e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 80C300 80 300 220 600 220S900 80 1200 80V300H0Z' fill='url(%23f)'/%3E%3Cpath d='M0 80C300 80 300 220 600 220S900 80 1200 80' fill='none' stroke='url(%23s)' stroke-width='3.5' stroke-opacity='.30' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+
+    background-repeat: repeat-x;
+    background-size:
+        1600px 190px,
+        1200px 240px,
+        900px 290px;
+    background-position:
+        0 50%,
+        -400px 50%,
+        -200px 50%;
+
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+
+    filter: blur(6px);
+
+    animation: waveFlow 32s linear infinite;
+}
+
+
+/* Shine: a soft light streak that sweeps across the waves */
+body::after {
+    content: "";
+    position: fixed;
+    left: -40px;
+    right: -40px;
+    top: 50%;
+    height: 60vh;
+    transform: translateY(-50%);
+    z-index: -1;
+    pointer-events: none;
+
+    background: linear-gradient(
+        105deg,
+        transparent 38%,
+        rgba(255, 255, 255, 0.75) 50%,
+        transparent 62%
+    );
+    background-size: 200% 100%;
+
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+
+    filter: blur(12px);
+
+    animation: waveShine 9s linear infinite;
+}
+
+
+/* Each layer moves by exactly its own tile width, so the loop never jumps */
+@keyframes waveFlow {
+    from {
+        background-position:
+            0 50%,
+            -400px 50%,
+            -200px 50%;
+    }
+
+    to {
+        background-position:
+            -1600px 50%,
+            800px 50%,
+            -1100px 50%;
+    }
+}
+
+
+@keyframes waveShine {
+    from {
+        background-position: 150% 0;
+    }
+
+    to {
+        background-position: -50% 0;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    body::before,
+    body::after {
+        animation: none;
+    }
+}
+
+
 /* ================= APP ================= */
 
 .app-container {
     min-height: 100vh;
+
+    position: relative;
+    z-index: 1;
 
     display: flex;
     flex-direction: column;
@@ -86,7 +193,7 @@ body {
 
     padding: 0 5%;
 
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.75);
 
     border-bottom: 1px solid var(--border);
 
@@ -690,7 +797,7 @@ body {
         linear-gradient(
             to bottom,
             transparent,
-            rgba(250, 250, 250, 0.96) 22%
+            rgba(250, 250, 250, 0.5) 45%
         );
 
     z-index: 10;
