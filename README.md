@@ -201,7 +201,7 @@ The `.env` file is excluded from version control using `.gitignore`.
 ## 👩‍💻 Developer
 
 **Liv Johar**
-B.E. Computer Science Engineering — Artificial Intelligence & Machine Learning
+B.E. Computer Science Engineering - Artificial Intelligence & Machine Learning
 Chitkara University, Punjab
 
 ---
